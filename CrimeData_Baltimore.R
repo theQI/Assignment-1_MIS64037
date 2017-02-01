@@ -1,35 +1,10 @@
 #This R program will give output for the desired results as per 
 
 #We will download the crime data from the baltimore city website with the below function.
-fileURL <- "https://data.baltimorecity.gov/Public-Safety/BPD-Part-1-Victim-Based-Crime-Data/wsfq-mvij/data"
+fileURL <- "https://data.baltimorecity.gov/api/views/wsfq-mvij/rows.csv?accessType=DOWNLOAD"
 download.file(fileURL,destfile = "CrimeData.csv",method = "auto")
 list.files(".")
 # The csv contains both NULL values and privacysuppressed designations in numeric fields
-CollegeScorecard <- read.csv("CollegeData.csv",na.strings = c("NULL","PrivacySuppressed"))
+CrimeRecord <- read.csv("CrimeData.csv", header = T, na.strings = c(" ", ""))
 library(tibble)
-CS <- tbl_df(CollegeScorecard) #allows for better printing compared to a dataframe
-dim(CS)
-library(dplyr) # useful library for manipulating data
-# Examples of use follow
-filter(CS,!is.na(SATWR75)) %>% head() # remove all na values in that column and show
-distinct(CS,SATVR25) # show distinct values by variable
-summarise(CS,ACT=mean(ACTCM25,na.rm=T)) # summarize by variable
-
-# Using group_by funtions
-by_state <- group_by(CS,STABBR)
-acts <- summarise(by_state,count= n(),MACT = mean(ACTCM25,na.rm=T),
-                  MSAT = mean(SATVR25,na.rm=T))
-sacts <- filter(acts,MACT>20 & MSAT > 300)
-
-# Chaining:  dplyr provides the %>% operator. x %>% f(y) turns into f(x, y) so 
-# you can use it to rewrite multiple operations that you can read left-to-right, 
-# top-to-bottom
-
-CollegeScorecard %>% group_by(STABBR) %>%
-  select(STABBR,ACTCM25,SATMT25) %>%
-  summarize(
-    count = n(),
-    mact = mean(ACTCM25, na.rm=T),
-    msat = mean(SATMT25, na.rm=T)
-  ) %>%
-  filter(mact > 25 | msat > 200)
+CR 
