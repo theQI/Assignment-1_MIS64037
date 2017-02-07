@@ -1,4 +1,4 @@
-# 1. You are seeing this file from the GitHub repository.
+# 1. You are accessing this file from the GitHub repository.
 
 # First, set the directory of this command to where you want to save the files. I have used my local directory.
 setwd("C:/Users/lpanthi/Google Drive/Spring 17/MIS64037/Assignment-1_MIS64037")
@@ -26,7 +26,19 @@ summary(CR)
 summarise(CR, AveragePost=mean(Post, na.rm=T), AverageIncident=mean(Total.Incidents, na.rm=T))
 summarise(CR, SDPost=sd(Post, na.rm=T), SDIncident=sd(Total.Incidents, na.rm=T))
 
-# The below command would automatically find the numerical columns and 
+# The below command would automatically find the numerical columns and find mean and Sd respectively
+sapply(CR[sapply(CR,is.numeric)],mean,na.rm=T) # Gives the means for numerical column in the DataFrame CR
+sapply(CR[sapply(CR,is.numeric)],sd,na.rm=T) # Gives the standard deviation for numerical column in the DataFrame CR
 
+# 4. To find the means and standard deviation by Crime Data group by selecting each numerical columns.
+summarise(group_by(CR, CrimeCode), AveragePost = mean(Post, na.rm=T), AverageIncidents = mean(Total.Incidents, na.rm=T), SD.Post = sd(Post, na.rm=T), SD.Incidents = sd(Total.Incidents, na.rm=T))
+
+# 5. The following commands will count the total incidents by district and crimecode
 by_crimecode <- group_by(CR, CrimeCode)
-avgpostbycrimedata <- summarise(by_crimecode, AveragePostbyCrimeCode = mean(Post, na.rm=T))
+by_crimecode %>% count(Total.Incidents, sort = TRUE)
+by_District <- group_by(CR, District)
+by_District %>% count(Total.Incidents, sort = TRUE)
+
+# 6. Count the number of incidents in cross tabing Crimecode with Weapon and district
+xtabs(Total.Incidents ~ CrimeCode+Weapon,CR) %>% ftable()
+xtabs(Total.Incidents ~ CrimeCode+District,CR) %>% ftable()
