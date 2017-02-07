@@ -1,18 +1,32 @@
-#This R program will give output for the desired results as per 
-#Setting the working directory first
-setwd("C:/Users/laxpa/Google Drive/Spring 17/MIS64037/Assignment-1_MIS64037")
-#We will download the crime data from the baltimore city website with the below function
+# 1. You are seeing this file from the GitHub repository.
+
+# First, set the directory of this command to where you want to save the files. I have used my local directory.
+setwd("C:/Users/lpanthi/Google Drive/Spring 17/MIS64037/Assignment-1_MIS64037")
+getwd()
+
+# 2. The following command will download the file to the set working directory and list the files available in that directory:
 fileURL <- "https://data.baltimorecity.gov/api/views/wsfq-mvij/rows.csv?accessType=DOWNLOAD"
 download.file(fileURL,destfile = "CrimeData.csv",method = "auto")
 list.files(".")
-# The csv contains both NULL values and privacysuppressed designations in numeric fields
+
+# The csv file contain several null values, we will now change the Null values to <NA> and save as a Crimerecord object.
 CrimeRecord <- read.csv("CrimeData.csv", header = T, na.strings = c(" ", ""))
-CrimeRecord
+Summary(CrimeRecord)
+
+#3. Load the libraries required to summarize data.
 library("dplyr", lib.loc="~/R/win-library/3.3")
 library("tibble", lib.loc="~/R/win-library/3.3")
+
+# Saving the data to CR object in tibble format. Examples of commands that can be used in this data frame to follow.
 CR <- tbl_df(CrimeRecord)
 dim(CR)
-summarise(CR, AveragePost=mean(Post, na.rm=T))
+summary(CR)
+
+# There are two columns with numerical values. We will find out the mean and SD for each columns.
+summarise(CR, AveragePost=mean(Post, na.rm=T), AverageIncident=mean(Total.Incidents, na.rm=T))
+summarise(CR, SDPost=sd(Post, na.rm=T), SDIncident=sd(Total.Incidents, na.rm=T))
+
+# The below command would automatically find the numerical columns and 
+
 by_crimecode <- group_by(CR, CrimeCode)
-by_crimecode
-summarise(by_crimecode, AveragePostbyCrimeCode = mean(Post, na.rm=T))
+avgpostbycrimedata <- summarise(by_crimecode, AveragePostbyCrimeCode = mean(Post, na.rm=T))
