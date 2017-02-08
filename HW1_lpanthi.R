@@ -1,7 +1,7 @@
 # 1. You are accessing this file from the GitHub repository.
 
 # First, set the directory of this command to where you want to save the files. I have used my local directory. Please use your location where you want to save the files.
-setwd("C:/Users/lpanthi/Google Drive/Spring 17/MIS64037/Assignment-1_MIS64037")
+setwd("C:/Users/lpanthi/Google Drive/Spring 17/MIS64037/HW1")
 getwd()
 
 # 2. The following command will download the file to the set working directory and list the files available in that directory:
