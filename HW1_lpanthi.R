@@ -1,6 +1,6 @@
 # 1. You are accessing this file from the GitHub repository.
 
-# First, set the directory of this command to where you want to save the files. I have used my local directory.
+# First, set the directory of this command to where you want to save the files. I have used my local directory. Please use your location where you want to save the files.
 setwd("C:/Users/lpanthi/Google Drive/Spring 17/MIS64037/Assignment-1_MIS64037")
 getwd()
 
@@ -14,8 +14,8 @@ CrimeRecord <- read.csv("CrimeData.csv", header = T, na.strings = c(" ", ""))
 Summary(CrimeRecord)
 
 #3. Load the libraries required to summarize data.
-library("dplyr", lib.loc="~/R/win-library/3.3")
-library("tibble", lib.loc="~/R/win-library/3.3")
+library("dplyr")
+library("tibble")
 
 # Saving the data to CR object in tibble format. Examples of commands that can be used in this data frame to follow.
 CR <- tbl_df(CrimeRecord)
